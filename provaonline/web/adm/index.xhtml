@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+          
+    <ui:composition template="../template/modelo.xhtml">
+    
+    <ui:define name="scripts_css">
+        
+    <title>Área do professor</title>
+    <link rel="stylesheet" href="../resources/css/style.css"/>
+        <!--[if IE]>
+	<script type="text/javascript">
+	(function(){
+	var html5elmeents = "address|article|aside|audio|canvas|command|datalist|details|dialog|figure|figcaption|footer|header|hgroup|keygen|mark|meter|menu|nav|progress|ruby|section|time|video".split('|');
+	for(var i = 0; i < html5elmeents.length; i++){
+	document.createElement(html5elmeents[i]);
+	}
+	}
+	)();
+	</script>
+	<![endif]-->
+    </ui:define>
+    
+    <ui:define name="header">
+        <div id="header-wrap">
+                    <header class="group">
+                            <h2><a href="../../provaonline/index.jsf" title="Prova OnLine">Prova OnLine</a></h2>
+                            <div id="call">
+                                    <h3>Efetue o login</h3>
+                                    <h3><h:form>
+                                        <h:inputText class="inpLogin" value="we"/>
+                                        <h:inputSecret class="inpLogin" />
+                                        <h:commandButton class="inpLogar" value="entrar" />
+                                    </h:form>
+                                    </h3>
+                                    <h4 class="green">ou cadastre-se <strong class="black"><a href="">aqui</a></strong></h4>
+                            </div><!-- end call -->
+                            <nav class="group">
+                                    <ul>
+                                            <li class="home"><a href="../../provaonline/index.jsf" >Home</a></li>
+                                            <li><a href="../aluno/index.jsf" title="">Alunos</a></li>
+                                            <li><a href="index.jsf" title="">Professores</a></li>
+                                            <li><a href="#" title="">Disciplinas</a></li>
+                                            <li><a href="#" title="">Quem somos</a></li>
+                                    </ul>
+                            </nav>
+                    </header>
+            </div><!-- end header wrap -->
+    </ui:define>
+    
+        <ui:define name="container">
+        <div id="a">
+            
+        <div id="container">
+            <aside class="menuEsq">
+                <div>
+                    <h4>Área do professor</h4>
+                    <ul>
+                        <li><a href="#">Opção 1</a></li>
+                        <li><a href="#">Opção 2</a></li>
+                        <li><a href="#">Opção 3</a></li>
+                        <li><a href="#">Opção 4</a></li>
+                        <li><a href="#">Opção 5</a></li>
+                        <li><a href="#">Opção 6</a></li>
+                        <li><h:link>Sair</h:link></li>
+                    </ul>
+                </div>
+            </aside>
+            <article class="conteudo">
+                <p>O conteúdo </p>
+                <p>vai </p>
+                <p> aqui </p>
+            </article>
+        </div>    
+        </div>
+        <div style="clear: both"></div>
+    </ui:define>
+    
+    <ui:define name="footer">
+        <footer class="group">
+            <div id="footer-left">
+                    <p>Copyright <a href="#" class="green">www.1stwebdesigner.com</a> </p>
+                    <p>Designed by <a href="#" class="green">Michael Burns</a></p>
+            </div>
+            <div id="footer-right">
+                    <ul>
+                        <li class="home"><a href="../../provaonline/index.jsf" >Home</a></li>
+                        <li><a href="../aluno/index.jsf" title="">Alunos</a></li>
+                        <li><a href="index.jsf" title="">Professores</a></li>
+                        <li><a href="#" title="">Disciplinas</a></li>
+                        <li><a href="#" title="">Quem somos</a></li>
+                    </ul>
+            </div>
+            <a href="#header-wrap"><img src="../resources/images/back-top.png" alt="back-top" class="back-top" /></a>		
+        </footer>
+    </ui:define>
+    </ui:composition>
+</html>
