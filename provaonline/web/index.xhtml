@@ -24,16 +24,16 @@
 			<div id="call">
                                 <h3>Efetue o login</h3>
                                 <h:form>
-                                    <h:inputText class="inpLogin" />
-                                    <h:inputSecret class="inpLogin" />
-                                    <h:commandButton class="inpLogar" value="entrar" />
+                                    <h:inputText class="inpLogin" value="#{usuarioController.usuario.login}" />
+                                    <h:inputSecret class="inpLogin" value="#{usuarioController.usuario.senha}" />
+                                    <h:commandButton class="inpLogar" value="entrar" action="#{usuarioController.autenticar()}" />
                                 </h:form>
                                 <h4 class="green">ou cadastre-se <strong class="black"><a href="">aqui</a></strong></h4>
 			</div><!-- end call -->
 			<nav class="group">
 				<ul>
-					<li class="home"><a href="index.jsf" title="">Home</a></li>
-					<li><a href="aluno/index.jsf" title="">Alunos</a></li>
+                                    <li class="home"><h:link outcome="index.jsf">Home</h:link></li>
+					<li><h:link outcome="aluno/index.jsf">Alunos</h:link></li>
 					<li><a href="adm/index.jsf" title="">Professores</a></li>
 					<li><a href="#" title="">Disciplinas</a></li>
 					<li><a href="#" title="">Quem somos</a></li>
