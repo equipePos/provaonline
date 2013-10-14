@@ -1,7 +1,7 @@
 
 package dao;
 
-import java.sql.Array;
+import bean.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,21 +14,7 @@ import util.FabricaConexoes;
  */
 public class UsuarioDAO {
     private Connection conexao;
-    
-    private static final String INSERIR_USUARIO =
-                    "INSERT INTO `prova`.`tbl_usuario` " +
-                        "(`idusuario`, " +
-                        "`tbl_tipo_usuario_id_tipo_usuario`, " +
-                        "`ra_rm_usuario`, " +
-                        "`nome_usuario`, " +
-                        "`rg_usuario`, " +
-                        "`email_usuario`, " +
-                        "`telefone_usuario`, " +
-                        "`login_usuario`, " +
-                        "`cpf_usuario`, " +
-                        "`senha_usuario`) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?,?);";
-    
+        
     private static final  String CONSULTA_USUARIO =
 			"select * from `prova`.`tbl_usuario`";
     
@@ -38,6 +24,20 @@ public class UsuarioDAO {
                                 + " where "
                                 + " login_usuario = ? and "
                                 + " senha_usuario = ?";
+    
+    private static final String INSERIR_USUARIO =
+                    "INSERT INTO `prova`.`tbl_usuario` " +
+                        "(`tbl_tipo_usuario_id_tipo_usuario`, " +
+                        "`ra_rm_usuario`, " +
+                        "`nome_usuario`, " +
+                        "`rg_usuario`, " +
+                        "`email_usuario`, " +
+                        "`telefone_usuario`, " +
+                        "`login_usuario`, " +
+                        "`cpf_usuario`, " +
+                        "`senha_usuario`) " +
+                        "VALUES (?,?,?,?,?,?,?,?,?);";
+
    
     public String[] getAutenticacao(String nome, String senha) throws SQLException{
         Connection conn = new FabricaConexoes().getConnection();
@@ -63,5 +63,28 @@ public class UsuarioDAO {
             }
 
         return autenticado;			
+    }
+    
+    public boolean addUsuario(Usuario usuario, int tipo){
+        boolean resultado = false;
+	Connection conn = new FabricaConexoes().getConnection();
+        PreparedStatement statement;
+            try {
+                statement = conn.prepareStatement(INSERIR_USUARIO);
+                statement.setInt(1, tipo);
+                statement.setString(2, usuario.getRa_rm());
+                statement.setString(3, usuario.getNome());
+                statement.setString(4, usuario.getRg());
+                statement.setString(5, usuario.getEmail());
+                statement.setString(6, usuario.getTel());
+                statement.setString(7, usuario.getLogin());
+                statement.setString(8, usuario.getCpf());
+                statement.setString(9, usuario.getSenha());
+                statement.executeUpdate();
+                resultado = true;
+            } catch (SQLException e) {
+                    System.out.println("------->" + e.getMessage());
+            }
+        return resultado;
     }
 }

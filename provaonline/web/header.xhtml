@@ -1,0 +1,61 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"    
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+        
+    <h2><a href="index.xhtml" title="Prova OnLine">Prova OnLine</a></h2>
+    <h:panelGroup rendered="#{usuarioController.usuario.login eq null}">        
+        <div id="call">
+                <h3>Efetue o login</h3>
+                <h:form id="frm_1">
+                    <h:inputText class="inpLogin" value="#{usuarioController.usuario.login}" />
+                    <h:inputSecret class="inpLogin" value="#{usuarioController.usuario.senha}" />
+                    <h:commandButton class="inpLogar" value="entrar" action="#{usuarioController.autenticar()}" />
+                    <h4 class="green">ou cadastre-se <strong class="black"><p:commandLink update=":cd_form:" actionListener="#{usuarioController.prepararAdicionarAluno()}" oncomplete="cd.show()">aqui</p:commandLink></strong></h4>
+                    <p:growl id="erroLogin" for="erroLogin" showDetail="true"/>
+                </h:form>
+
+                    <p:confirmDialog width="500px" header="Cadastro de Alunos" severity="info" widgetVar="cd" id="cd_form" >
+                        <h:form prependId="false" id="frm">
+                        <p:panelGrid columns="3">
+                            <p:outputLabel>Nome:</p:outputLabel>
+                            <p:inputText id="txtNome" value="#{usuarioController.usuario.nome}" ></p:inputText>
+                            <p:message id="nome" for="txtNome"></p:message>
+                            <p:outputLabel>RG:</p:outputLabel>
+                            <p:inputText id="txtRG" value="#{usuarioController.usuario.rg}"></p:inputText>
+                            <p:message id="rg" for="txtRG"></p:message>
+                            <p:outputLabel>CPF:</p:outputLabel>
+                            <p:inputText id="txtCpf" value="#{usuarioController.usuario.cpf}"></p:inputText>
+                            <p:message id="cpf" for="txtCpf"></p:message>
+                            <p:outputLabel>RA:</p:outputLabel>
+                            <p:inputText id="txtRa" value="#{usuarioController.usuario.ra_rm}"></p:inputText>
+                            <p:message id="ra" for="txtRa"></p:message>
+                            <p:outputLabel>e-mail:</p:outputLabel>
+                            <p:inputText id="txtEmail" value="#{usuarioController.usuario.email}"></p:inputText>
+                            <p:message id="email" for="txtEmail"></p:message>
+                            <p:outputLabel>Login:</p:outputLabel>
+                            <p:inputText id="txtLogin" value="#{usuarioController.usuario.login}"></p:inputText>
+                            <p:message id="login" for="txtLogin"></p:message>
+                            <p:outputLabel>Senha:</p:outputLabel>
+                            <p:password id="txtSenha" value="#{usuarioController.usuario.senha}"></p:password>
+                            <p:message id="senha" for="txtSenha"></p:message>
+                            <p:outputLabel>Confirmar Senha:</p:outputLabel>
+                            <p:password id="txtCSenha"></p:password>
+                            <p:message id="csenha" for="txtCSenha"></p:message>                            
+                            <p:commandButton value="Limpar" type="reset"  />
+                            <p:commandButton value="Enviar" actionListener="#{usuarioController.inserirAluno()}" oncomplete="cd.hide()" />
+                        </p:panelGrid>
+                    </h:form>
+                    </p:confirmDialog>
+                
+        </div><!-- end call -->
+    </h:panelGroup>
+    <h:panelGroup rendered="#{usuarioController.usuario.login ne null}" >
+        <div id="call">
+                <h3>Olá</h3>
+                <h4 class="green"><strong class="black"><h:outputText value="#{usuarioController.usuario.login}"></h:outputText></strong></h4>
+        </div><!-- end call -->
+    </h:panelGroup>
+</ui:composition>

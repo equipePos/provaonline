@@ -1,11 +1,17 @@
 
 package bean;
 
+import java.io.Serializable;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+
 /**
  *
  * @author Giovani
  */
-public class Usuario {
+@ManagedBean(name = "usuario")
+@RequestScoped
+public class Usuario implements Serializable{
     private int idUsuario;
     private int tipoUsuario;
     private String ra_rm;

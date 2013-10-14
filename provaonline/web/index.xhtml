@@ -5,6 +5,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head></h:head>
+    <h:body>
         
     <ui:composition template="./template/modelo.xhtml">
     
@@ -14,106 +16,94 @@
             <script src="resources/js/jquery-1.8.0.js"></script>
             <script src="resources/js/slides.jquery.js"></script>
             <script src="resources/js/slides.min.jquery.js"></script>
-
         </ui:define>
         
     <ui:define name="header">
-    <div id="header-wrap">
-		<header class="group">
-			<h2><a href="index.xhtml" title="Prova OnLine">Prova OnLine</a></h2>
-			<div id="call">
-                                <h3>Efetue o login</h3>
-                                <h:form>
-                                    <h:inputText class="inpLogin" value="#{usuarioController.usuario.login}" />
-                                    <h:inputSecret class="inpLogin" value="#{usuarioController.usuario.senha}" />
-                                    <h:commandButton class="inpLogar" value="entrar" action="#{usuarioController.autenticar()}" />
-                                </h:form>
-                                <h4 class="green">ou cadastre-se <strong class="black"><a href="">aqui</a></strong></h4>
-			</div><!-- end call -->
-			<nav class="group">
-				<ul>
-                                    <li class="home"><h:link outcome="index.jsf">Home</h:link></li>
-					<li><h:link outcome="aluno/index.jsf">Alunos</h:link></li>
-					<li><a href="adm/index.jsf" title="">Professores</a></li>
-					<li><a href="#" title="">Disciplinas</a></li>
-					<li><a href="#" title="">Quem somos</a></li>
-				</ul>
-			</nav>
-		</header>
-	</div><!-- end header wrap -->
+        <div id="header-wrap">
+                    <header class="group">
+                            <ui:include src="header.xhtml"/>
+                            <nav class="group">
+                                    <ul>
+                                        <li class="home"><h:link outcome="index.jsf">Home</h:link></li>
+                                            <li><h:link outcome="aluno/index.jsf">Alunos</h:link></li>
+                                            <li><a href="adm/index.jsf" title="">Professores</a></li>
+                                            <li><a href="#" title="">Disciplinas</a></li>
+                                            <li><a href="#" title="">Quem somos</a></li>
+                                    </ul>
+                            </nav>
+
+                    </header>
+            </div><!-- end header wrap -->
+    </ui:define>
         
-    </ui:define>
+
     <ui:define name="container">
-<div id="container">
-		<div id="slides">
-			<div class="slides_container">
-				<div>
-                                        <img src="resources/images/prof2.png" alt="slide1" />
-					<div class="slide-right">
-						<h1 class="slide-heading">Professores.</h1>
-						<p class="info">Fácil acesso a ferramentas de criação de provas on line.</p>
-						<p><a href="#" class="readmore">leia mais</a></p>
-					</div>
-				</div>
-                            
-				<div>
-                                        <img src="resources/images/homework1.png" alt="slide1" />
-					<div class="slide-right">
-						<h1 class="slide-heading">Provas on line.</h1>
-						<p class="info">Realize suas provas, onde você estiver!</p>
-						<p><a href="#" class="readmore">leia mais</a></p>
-					</div>
-				</div>
+        <div id="container">
+                <div id="slides">
+                            <div class="slides_container">
+                                    <div>
+                                            <img src="resources/images/prof2.png" alt="slide1" />
+                                            <div class="slide-right">
+                                                    <h1 class="slide-heading">Professores.</h1>
+                                                    <p class="info">Fácil acesso a ferramentas de criação de provas on line.</p>
+                                                    <p><a href="#" class="readmore">leia mais</a></p>
+                                            </div>
+                                    </div>
 
-                                <div>
-                                        <img src="resources/images/student.png" alt="slide1" />
-					<div class="slide-right">
-						<h1 class="slide-heading">Alunos.</h1>
-						<p class="info">Gerencie suas informações cadastrais, realize provas e veja os resultados.</p>
-						<p><a href="#" class="readmore">leia mais</a></p>
-					</div>
-				</div>
-				
-			</div><!-- end slies container -->
-		</div><!-- end slides -->
-		
-		<div id="service">
-				<div id="web">
-                                    <img src="resources/images/student1.gif" />
-					<h3>Área do <strong><a href="#" ><span class="green">Aluno</span></a></strong></h3>	
-					<p>Gerencie suas informações cadastrais, realize provas e veja os resultados.</p>
-					
-				</div><!-- end web -->
-				
-				<div id="vector">
-                                    <img src="resources/images/teach.png" />
-					<h3>Área do <strong><a href="#" ><span class="green">Professor</span></a></strong></h3>	
-					<p>Fácil acesso a ferramentas de criação de provas on line.</p>
-				</div><!-- end vector -->
-		
-		</div><!-- end service-->
-		
+                                    <div>
+                                            <img src="resources/images/homework1.png" alt="slide1" />
+                                            <div class="slide-right">
+                                                    <h1 class="slide-heading">Provas on line.</h1>
+                                                    <p class="info">Realize suas provas, onde você estiver!</p>
+                                                    <p><a href="#" class="readmore">leia mais</a></p>
+                                            </div>
+                                    </div>
 
-	</div> <!--! end container -->        
+                                    <div>
+                                            <img src="resources/images/student.png" alt="slide1" />
+                                            <div class="slide-right">
+                                                    <h1 class="slide-heading">Alunos.</h1>
+                                                    <p class="info">Gerencie suas informações cadastrais, realize provas e veja os resultados.</p>
+                                                    <p><a href="#" class="readmore">leia mais</a></p>
+                                            </div>
+                                    </div>
+
+                            </div><!-- end slies container -->
+                    </div><!-- end slides -->
+                    <div id="service">
+                                    <div id="web">
+                                        <img src="resources/images/student1.gif" />
+                                            <h3>Área do <strong><a href="#" ><span class="green">Aluno</span></a></strong></h3>	
+                                            <p>Gerencie suas informações cadastrais, realize provas e veja os resultados.</p>
+
+                                    </div><!-- end web -->
+
+                                    <div id="vector">
+                                        <img src="resources/images/teach.png" />
+                                            <h3>Área do <strong><a href="#" ><span class="green">Professor</span></a></strong></h3>	
+                                            <p>Fácil acesso a ferramentas de criação de provas on line.</p>
+                                    </div><!-- end vector -->
+
+                    </div><!-- end service-->
+            </div> <!--! end container -->        
     </ui:define>
-    <ui:define name="footer">
-        	<footer class="group">
-		<div id="footer-left">
-			<p>Copyright <a href="#" class="green">www.1stwebdesigner.com</a> </p>
-			<p>Designed by <a href="#" class="green">Michael Burns</a></p>
-		</div>
-			
-		<div id="footer-right">
-			<ul>
-                            <li class="home"><a href="index.jsf" title="">Home</a></li>
-                            <li><a href="aluno/index.jsf" title="">Alunos</a></li>
-                            <li><a href="adm/index.jsf" title="">Professores</a></li>
-                            <li><a href="#" title="">Disciplinas</a></li>
-                            <li><a href="#" title="">Quem somos</a></li>                                
-			</ul>
-		</div>
-				
-		<a href="#header-wrap"><img src="resources/images/back-top.png" alt="back-top" class="back-top" /></a>		
+
+    <ui:define name="footer"> 
+        <footer class="group">
+            <div id="footer-left">
+                    <p>Copyright <a href="#" class="green">www.1stwebdesigner.com</a> </p>
+                    <p>Designed by <a href="#" class="green">Michael Burns</a></p>
+            </div>			
+            <div id="footer-right">
+                    <ul>
+                        <li class="home"><a href="index.jsf" title="">Home</a></li>
+                        <li><a href="aluno/index.jsf" title="">Alunos</a></li>
+                        <li><a href="adm/index.jsf" title="">Professores</a></li>
+                        <li><a href="#" title="">Disciplinas</a></li>
+                        <li><a href="#" title="">Quem somos</a></li>                                
+                    </ul>
+            </div>                    
+            <a href="#header-wrap"><img src="resources/images/back-top.png" alt="back-top" class="back-top" /></a>		
 	</footer>
         <script>
                         $(function(){
@@ -125,4 +115,5 @@
         </script>
     </ui:define>
     </ui:composition>
+    </h:body>
 </html>

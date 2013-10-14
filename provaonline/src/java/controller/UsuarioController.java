@@ -9,10 +9,11 @@ package controller;
 import bean.Usuario;
 import dao.UsuarioDAO;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.SQLException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -21,8 +22,8 @@ import javax.faces.context.FacesContext;
  * @author Giovani
  */
 @ManagedBean(name = "usuarioController")
-@RequestScoped
-public class UsuarioController {
+@SessionScoped
+public class UsuarioController implements Serializable{
     private Usuario usuario;
     private UsuarioDAO usuarioDAO;
 
@@ -46,7 +47,26 @@ public class UsuarioController {
         this.usuarioDAO = usuarioDAO;
     }
     
+    public String  inserirAluno(){
+        String resultado = "falha";
+        System.err.println("passou");
+        usuarioDAO = new UsuarioDAO();
+        System.err.println("passou DAO");
+        boolean retorno = usuarioDAO.addUsuario(usuario, 1);
+        System.err.println("passou insert DAO");
+        if(retorno){
+            resultado = "index";
+        }
+        usuario = new Usuario();
+        return resultado;
+    }
+
     
+    public String prepararAdicionarAluno(){
+        usuario = new Usuario();
+        return "addUsuario";
+    }
+        
     public void autenticar() throws SQLException, IOException{
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", false);         
         FacesContext redireciona = FacesContext.getCurrentInstance();  
@@ -56,24 +76,27 @@ public class UsuarioController {
         System.out.println("0 --> "+retorno[0]+" 1 --> "+retorno[1]);
         if(retorno[0].equals("1")){
             if(retorno[1].equals("1")){
-                System.out.println("Passou aluno");
-                context.redirect("aluno\\index.jsf"); 
+                context.redirect("http://localhost:8080/provaonline/aluno/index.jsf"); 
             }else{
-                System.out.println("Passou adm");
-                context.redirect("adm\\index.jsf"); 
+                context.redirect("http://localhost:8080/provaonline/adm/index.jsf"); 
             }
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", true); 
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioTipo", retorno[1]); 
         }else{
-            context.redirect("index.jsf"); 
-            //FacesContext.getCurrentInstance().addMessage("erroLogin", new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro ao logar!", "Nome de usuário ou senha inválidos!!"));            
+            System.out.println("passou erro");
+            FacesContext contexto = FacesContext.getCurrentInstance();
+            contexto.addMessage("erroLogin", new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro ao logar!", "Nome de usuário ou senha inválidos!!"));            
+            //context.redirect("index.jsf"); 
         }
-
     }
     
-    public String logOut(){
+    public void logOut() throws IOException{
+        this.usuario = new Usuario();
+        FacesContext redireciona = FacesContext.getCurrentInstance();          
+        ExternalContext context = redireciona.getExternalContext();        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", false);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioTipo", 0);
-        return "index";
+        context.redirect("http://localhost:8080/provaonline/index.jsf"); 
+
     }    
 }
