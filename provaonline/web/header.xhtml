@@ -12,7 +12,7 @@
                 <h:form id="frm_1">
                     <h:inputText class="inpLogin" value="#{usuarioController.usuario.login}" />
                     <h:inputSecret class="inpLogin" value="#{usuarioController.usuario.senha}" />
-                    <h:commandButton class="inpLogar" value="entrar" action="#{usuarioController.autenticar()}" />
+                    <h:commandButton styleClass="inpLogar" value="entrar" action="#{usuarioController.autenticar()}" />
                     <h4 class="green">ou cadastre-se <strong class="black"><p:commandLink update=":cd_form:" actionListener="#{usuarioController.prepararAdicionarAluno()}" oncomplete="cd.show()">aqui</p:commandLink></strong></h4>
                     <p:growl id="erroLogin" for="erroLogin" showDetail="true"/>
                 </h:form>
