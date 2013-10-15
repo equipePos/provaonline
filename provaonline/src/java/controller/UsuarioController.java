@@ -11,6 +11,7 @@ import dao.UsuarioDAO;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -59,10 +60,32 @@ public class UsuarioController implements Serializable{
     }
 
     public void inicializaSessao(){
-        FacesContext redireciona = FacesContext.getCurrentInstance();          
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", false);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioTipo", 0);
+        Object ul = getSessionAttribute("usuariologado");  
+        Object ut = getSessionAttribute("usuarioTipo");
+        if(ul == null && ut == null){
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", false);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioTipo", 0);            
+        }
     }
+    
+    public static Object getSessionAttribute(String attributeName) {    
+        try {    
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();    
+            if (ec != null){    
+                Map attrMap = ec.getSessionMap();       
+                if (attrMap != null) {    
+                    return attrMap.get(attributeName);    
+                } else {    
+                    return null;    
+                }    
+            } else {    
+                return null;    
+            }    
+        } catch (Exception e) {    
+            e.printStackTrace();    
+            return null;    
+        }    
+} 
     
     public String prepararAdicionarAluno(){
         usuario = new Usuario();

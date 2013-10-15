@@ -1,0 +1,17 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"    
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:form>
+        <p:growl id="erroLogin" showDetail="true"/>
+    </h:form>
+    <h2><a href="index.xhtml" title="Prova OnLine">Prova OnLine</a></h2>
+    <h:panelGroup  >
+        <div id="call">
+                <h3>Olá</h3>
+                <h4 class="green"><strong class="black"><h:outputText value="#{usuarioController.usuario.nome}"></h:outputText></strong></h4>
+        </div><!-- end call -->
+    </h:panelGroup>
+</ui:composition>
