@@ -49,11 +49,8 @@ public class UsuarioController implements Serializable{
     
     public String  inserirAluno(){
         String resultado = "falha";
-        System.err.println("passou");
         usuarioDAO = new UsuarioDAO();
-        System.err.println("passou DAO");
         boolean retorno = usuarioDAO.addUsuario(usuario, 1);
-        System.err.println("passou insert DAO");
         if(retorno){
             resultado = "index";
         }
@@ -73,7 +70,6 @@ public class UsuarioController implements Serializable{
         ExternalContext context = redireciona.getExternalContext();          
         usuarioDAO = new UsuarioDAO();
         String[] retorno = usuarioDAO.getAutenticacao(usuario.getLogin(), usuario.getSenha());
-        System.out.println("0 --> "+retorno[0]+" 1 --> "+retorno[1]);
         if(retorno[0].equals("1")){
             if(retorno[1].equals("1")){
                 context.redirect("http://localhost:8080/provaonline/aluno/index.jsf"); 
@@ -83,10 +79,9 @@ public class UsuarioController implements Serializable{
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", true); 
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioTipo", retorno[1]); 
         }else{
-            System.out.println("passou erro");
             FacesContext contexto = FacesContext.getCurrentInstance();
             contexto.addMessage("erroLogin", new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro ao logar!", "Nome de usuário ou senha inválidos!!"));            
-            //context.redirect("index.jsf"); 
+            usuario = new Usuario();
         }
     }
     
