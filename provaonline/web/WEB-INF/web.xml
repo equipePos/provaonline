@@ -24,5 +24,21 @@
     <context-param>  
         <param-name>primefaces.THEME</param-name>  
         <param-value>south-street</param-value>  
-    </context-param>     
+    </context-param>   
+    <filter>  
+        <filter-name>LoginFiltro</filter-name>  
+        <filter-class>util.LoginFiltro</filter-class>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>LoginFiltro</filter-name>  
+        <url-pattern>/aluno/*</url-pattern>  
+    </filter-mapping>      
+    <filter>  
+        <filter-name>LoginFiltroProf</filter-name>  
+        <filter-class>util.LoginFiltroProf</filter-class>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>LoginFiltroProf</filter-name>  
+        <url-pattern>/adm/*</url-pattern>  
+    </filter-mapping>      
 </web-app>

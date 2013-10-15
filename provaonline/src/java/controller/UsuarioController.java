@@ -58,6 +58,11 @@ public class UsuarioController implements Serializable{
         return resultado;
     }
 
+    public void inicializaSessao(){
+        FacesContext redireciona = FacesContext.getCurrentInstance();          
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", false);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioTipo", 0);
+    }
     
     public String prepararAdicionarAluno(){
         usuario = new Usuario();
