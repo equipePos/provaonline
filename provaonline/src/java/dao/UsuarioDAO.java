@@ -18,8 +18,11 @@ public class UsuarioDAO {
     private static final  String CONSULTA_USUARIO =
 			"select * from `prova`.`tbl_usuario`";
     
+    private static final  String CONSULTA_USUARIO_ID =
+			"select * from `prova`.`tbl_usuario` where idusuario = ?";
+    
     private static final String AUTENTICAR_USUARIO = 
-                                "select count(*) as total, tbl_tipo_usuario_id_tipo_usuario as tipo "
+                                "select count(*) as total, tbl_tipo_usuario_id_tipo_usuario as tipo,idusuario as id "
                                 + "from `prova`.`tbl_usuario`"
                                 + " where "
                                 + " login_usuario = ? and "
@@ -44,7 +47,7 @@ public class UsuarioDAO {
         PreparedStatement statement = null;
         ResultSet result = null;
         int numReg = 0;
-        String[] autenticado = new String[]{"0","0"};
+        String[] autenticado = new String[]{"0","0","0"};
             try{
                 statement = conn.prepareStatement(AUTENTICAR_USUARIO);
                 statement.setString(1, nome);
@@ -59,6 +62,8 @@ public class UsuarioDAO {
             if(numReg == 1){
                     autenticado[0] = "1";
                     autenticado[1] = result.getString("tipo");
+                    autenticado[2] = result.getString("id");
+                    
                     return autenticado;
             }
 
@@ -86,5 +91,32 @@ public class UsuarioDAO {
                     System.out.println("------->" + e.getMessage());
             }
         return resultado;
+    }
+    
+    public Usuario consultarUsuarioID(int id){
+        Usuario usuario = new Usuario();
+        Connection conn = new FabricaConexoes().getConnection();
+        PreparedStatement statement;
+        ResultSet result;
+            try {
+                statement = conn.prepareStatement(CONSULTA_USUARIO_ID);
+                statement.setInt(1, id);
+                    result = statement.executeQuery();
+                    while (result.next()) {
+                        usuario.setIdUsuario(result.getInt(1));
+                        usuario.setTipoUsuario(result.getInt(2));
+                        usuario.setRa_rm(result.getString(3));
+                        usuario.setNome(result.getString(4));
+                        usuario.setRg(result.getString(5));
+                        usuario.setEmail(result.getString(6));
+                        usuario.setTel(result.getString(7));
+                        usuario.setLogin(result.getString(8));
+                        usuario.setCpf(result.getString(9));
+                        usuario.setSenha(result.getString(10));
+                    }
+            }catch(SQLException e){
+                    System.out.println("------->" + e.getMessage());                
+            }
+        return usuario;                
     }
 }

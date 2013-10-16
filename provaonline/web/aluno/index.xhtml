@@ -40,22 +40,52 @@
         <div id="container">
             <aside class="menuEsq">
                 <div>
-                    <h4>Área do aluno</h4>
-                    <ul>
-                        <li><a href="#">Opção 1</a></li>
-                        <li><a href="#">Opção 2</a></li>
-                        <li><a href="#">Opção 3</a></li>
-                        <li><a href="#">Opção 4</a></li>
-                        <li><a href="#">Opção 5</a></li>
-                        <li><a href="#">Opção 6</a></li>
-                        <li><h:form><h:commandLink  action="#{usuarioController.logOut()}">Sair</h:commandLink></h:form></li>
-                    </ul>
+                    <h:form id="form">
+                        <p:growl id="messages" showDetail="true" />
+                        <h4>Área do aluno</h4>
+                        <ul>
+                            <li><p:commandLink  >Provas</p:commandLink></li>
+                                <p:tree animate="true" style="width: 200px;" value="#{provas.root}" var="node" dynamic="true" cache="false"  
+                                        selectionMode="single"  selection="#{provas.selectedNode}" id="tree">
+                                    <p:ajax event="select" update=":form:messages" listener="#{provas.onNodeSelect}" />  
+                                    <p:treeNode id="treeNode" expandedIcon="ui-icon-folder-open"  
+                                                            collapsedIcon="ui-icon-folder-collapsed">  
+                                        <h:outputText value="#{node}" id="lblNode"/>  
+                                    </p:treeNode>  
+                                    <p:treeNode type="prova" icon="ui-icon-document">  
+                                        <h:outputText value="#{node}" />  
+                                    </p:treeNode> 
+                                </p:tree>  
+                            <li><p:commandLink>Resultados</p:commandLink></li>
+                            <p:tree animate="true" style="width: 200px;" value="#{provasFeitas.root}" var="node" dynamic="true" cache="false"  
+                                    selectionMode="single"  selection="#{provasFeitas.selectedNode}"  id="treeFeitas">
+                                <p:ajax event="select" update=":frm1" listener="#{provasFeitas.onNodeSelect}" />  
+                                    <p:treeNode id="treeNode" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">  
+                                        <h:outputText value="#{node}" id="lblNode"/>  
+                                    </p:treeNode>  
+                                    <p:treeNode type="prova" icon="ui-icon-document">  
+                                        <h:outputText value="#{node}" />  
+                                    </p:treeNode> 
+                                </p:tree>  
+                            
+                            <li><p:commandLink  action="#{usuarioController.logOut()}">Sair</p:commandLink></li>
+                        </ul>
+                    </h:form>
                 </div>
             </aside>
             <article class="conteudo">
-                <p>O conteúdo </p>
-                <p>vai </p>
-                <p> aqui </p>
+                <p:panel rendered="true" id="painel"  header="Resultado da Avaliação" style="margin-top:0px; width:680px;" >
+                        <h:form id="frm1">
+                                    <ui:repeat  id="rep" value="#{provasFeitas.questoes}" var="questoes">
+                                        <p:panel header="Questão - #{questoes.enunciado}">
+                                            <p:panelGrid columns="2">
+                                                <p:outputLabel>Resposta correta:</p:outputLabel><h:outputText value="#{questoes.correta}" />
+                                                <p:outputLabel>Sua resposta:</p:outputLabel><h:outputText value="#{questoes.resposta}" />                                    
+                                            </p:panelGrid>
+                                        </p:panel>
+                                    </ui:repeat>
+                        </h:form>
+                </p:panel>
             </article>
         </div>    
         </div>
