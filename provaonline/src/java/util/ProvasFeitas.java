@@ -16,8 +16,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -33,7 +31,8 @@ public class ProvasFeitas implements Serializable{
     Prova prova;
     ProvaDAO provaDAO;
     private List<Questao> questoes;
-    
+    int totAcertos;
+    int perguntas;
     private TreeNode root;
     private TreeNode selectedNode;
     
@@ -63,11 +62,38 @@ public class ProvasFeitas implements Serializable{
                 }            
             i++;
         }
-        
-        
-        
     }
 
+    public int getPerguntas() {
+        return perguntas;
+    }
+
+    public void setPerguntas(int perguntas) {
+        this.perguntas = perguntas;
+    }
+
+    public int getTotAcertos() {
+        return totAcertos;
+    }
+
+    public void setTotAcertos(int totAcertos) {
+        this.totAcertos = totAcertos;
+    }    
+
+    public void atualizaNroAcertos(){
+        int i = 0 ;
+        for (Questao questao : questoes) {
+            if(questao.getCorreta().equals(questao.getResposta())){
+                i++;
+            }
+        }
+        setTotAcertos(i);
+    }
+    
+    public void atualizaNroQuestoes(){
+        setPerguntas(this.questoes.size());
+    }
+    
     public List<Questao> getQuestoes() {
         return questoes;
     }
@@ -113,6 +139,8 @@ public class ProvasFeitas implements Serializable{
     public void atualizaQuestoes(int cod) {            
         provaDAO = new ProvaDAO();
         this.setQuestoes(provaDAO.resultadoQuestoes(cod));
+        this.atualizaNroAcertos();
+        this.atualizaNroQuestoes();
     }
 
 }

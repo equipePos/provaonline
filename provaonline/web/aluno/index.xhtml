@@ -74,8 +74,10 @@
                 </div>
             </aside>
             <article class="conteudo">
-                <p:panel rendered="true" id="painel"  header="Resultado da Avaliação" style="margin-top:0px; width:680px;" >
-                        <h:form id="frm1">
+                <h:form id="frm1">
+                    <p:panel rendered="true" id="painel"  header="Resultado da Avaliação - #{provasFeitas.totAcertos} acertos" style="margin-top:0px; width:680px;" >
+                        <p:outputLabel value="Número de questões: #{provasFeitas.perguntas} "></p:outputLabel>
+                        <p:panel toggleable="true" header="Detalhes" collapsed="true">
                                     <ui:repeat  id="rep" value="#{provasFeitas.questoes}" var="questoes">
                                         <p:panel header="Questão - #{questoes.enunciado}">
                                             <p:panelGrid columns="2">
@@ -84,8 +86,9 @@
                                             </p:panelGrid>
                                         </p:panel>
                                     </ui:repeat>
-                        </h:form>
-                </p:panel>
+                        </p:panel>
+                    </p:panel>
+                </h:form>
             </article>
         </div>    
         </div>
