@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -142,4 +143,16 @@ public class Provas implements Serializable{
         setNroAtual(i);
         setQuestaoAtual(questoes.get(nroAtual));
     }
+    
+    public void responderQuestao(){
+        provaDAO = new ProvaDAO();
+        provaDAO.responderQuestao(prova.getCod_prova(), 
+                prova.getIdUsuario(), 
+                this.questaoAtual.getCod_questao(), 
+                this.questaoAtual.getResposta(), prova.getIdUsuario());
+            FacesContext contexto = FacesContext.getCurrentInstance();
+            contexto.addMessage("resposta", new FacesMessage(FacesMessage.SEVERITY_FATAL, "Ok", "Resposta "));     
+            atualizarQuestaoAtual();
+    }    
+    
 }

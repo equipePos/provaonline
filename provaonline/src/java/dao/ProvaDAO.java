@@ -79,6 +79,36 @@ public class ProvaDAO {
                                             "p.cod_disciplina = d.cod_disciplina and\n" +
                                             "p.cod_prova = ?;";
     
+    private static final String ISERT_PF = "INSERT INTO `prova`.`tbl_prova_feita`\n" +
+                                                    "(`cod_prova`,\n" +
+                                                    "`cod_aluno`,\n" +
+                                                    "`cod_questao`,\n" +
+                                                    "`resposta`,\n" +
+                                                    "`tbl_usuario_idusuario`)\n" +
+                                                    "VALUES (?,?,?,?,?);";
+    
+    
+    public boolean responderQuestao(int cod_prova, int cod_aluno, int cod_quest, String resp, int idUser){
+        boolean resultado = false;
+	Connection conn = new FabricaConexoes().getConnection();
+        PreparedStatement statement;
+            try {
+                statement = conn.prepareStatement(ISERT_PF);
+                statement.setInt(1, cod_prova);
+                statement.setInt(2, cod_aluno);
+                statement.setInt(3, cod_quest);
+                statement.setString(4, resp);
+                statement.setInt(5, idUser);
+                statement.executeUpdate();
+                resultado = true;
+            } catch (SQLException e) {
+                    System.out.println("------->" + e.getMessage());
+            }        
+            return resultado;
+    } 
+    
+    
+    
     public String[][] consultaProvasDisciplinas(int op, int codAluno){
         String[][] retorno = null;
         Connection conn = new FabricaConexoes().getConnection();

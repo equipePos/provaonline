@@ -33,17 +33,17 @@
                     <h:outputText value="#{provas.prova.disciplina}"></h:outputText><br/>
                     <h:outputText value="#{provas.prova.idUsuario}"></h:outputText><br/>
                     <h:form id="frmQuestoes">
-
+                        <p:growl id="resposta" autoUpdate="true"/>
                         <p:panel header="#{provas.questaoAtual.enunciado}">
                                 
-                                <p:selectOneRadio value="Respostas" layout="pageDirection">
+                            <p:selectOneRadio value="#{provas.questaoAtual.resposta}" layout="pageDirection">
                                     <f:selectItem itemValue="a" itemLabel="#{provas.questaoAtual.alternativa_a}" />
                                     <f:selectItem itemValue="b" itemLabel="#{provas.questaoAtual.alternativa_b}" />
                                     <f:selectItem itemValue="c" itemLabel="#{provas.questaoAtual.alternativa_c}" />
                                     <f:selectItem itemValue="d" itemLabel="#{provas.questaoAtual.alternativa_d}" />
                                     <f:selectItem itemValue="e" itemLabel="#{provas.questaoAtual.alternativa_e}" />
                                 </p:selectOneRadio>
-                            <p:commandButton rendered="#{provas.questoes.size() ne provas.nroAtual+1}"  update="frmQuestoes" value="Reponder" actionListener="#{provas.atualizarQuestaoAtual()}" ></p:commandButton>
+                            <p:commandButton rendered="#{provas.questoes.size() ne provas.nroAtual+1}"  update="frmQuestoes" value="Reponder" actionListener="#{provas.responderQuestao()}" ></p:commandButton>
                             <p:commandButton rendered="#{provas.questoes.size() eq provas.nroAtual+1}"  update="frmQuestoes" value="Encerrar" ></p:commandButton>
                             </p:panel>     
                     </h:form>
