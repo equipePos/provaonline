@@ -71,6 +71,13 @@ public class ProvaDAO {
                                                             "	d.cod_disciplina = p.cod_disciplina and\n" +
                                                             "	p.cod_prova = pf.cod_prova and\n" +
                                                             "	pf.cod_prova = ?;";
+
+    private static final String QUESTÕES_PROVA = "select * from tbl_questao q where q.cod_prova = ?";
+    
+    private static final String PROVA = "SELECT * FROM prova.tbl_prova p, tbl_disciplina d \n" +
+                                            "where \n" +
+                                            "p.cod_disciplina = d.cod_disciplina and\n" +
+                                            "p.cod_prova = ?;";
     
     public String[][] consultaProvasDisciplinas(int op, int codAluno){
         String[][] retorno = null;
@@ -171,6 +178,7 @@ public class ProvaDAO {
         return retorno;
         
     }
+
     public List<Questao> resultadoQuestoes(int cod_prova){
         Connection conn = new FabricaConexoes().getConnection();
         PreparedStatement statement;
@@ -199,9 +207,64 @@ public class ProvaDAO {
             }catch(SQLException e){
                     System.out.println("------->" + e.getMessage());                
             }        
+        return listaQuestoes;        
+    }
+
+    public List<Questao> provaQuestoes(int cod_prova){
+        Connection conn = new FabricaConexoes().getConnection();
+        PreparedStatement statement;
+        List<Questao> listaQuestoes = new ArrayList<>();
+        ResultSet result;
+            try {
+                statement = conn.prepareStatement(QUESTÕES_PROVA);
+                statement.setInt(1, cod_prova);
+                result = statement.executeQuery();
+                while (result.next()) {
+                    Questao quest = new Questao();
+                    quest.setCod_questao(result.getInt(1));
+                    quest.setCod_prova(result.getInt(2));
+                    quest.setCod_aluno(0);
+                    quest.setEnunciado(result.getString(3));
+                    quest.setAlternativa_a(result.getString(5));
+                    quest.setAlternativa_b(result.getString(6));
+                    quest.setAlternativa_c(result.getString(7));
+                    quest.setAlternativa_d(result.getString(8));
+                    quest.setAlternativa_e(result.getString(9));
+                    quest.setCorreta(null);
+                    quest.setResposta(null);
+                    listaQuestoes.add(quest);
+                }
+ 
+            }catch(SQLException e){
+                    System.out.println("------->" + e.getMessage());                
+            }        
         return listaQuestoes;
         
     }
 
-
+    public Prova getProva(int cod_prova, int idUsuario){
+        Connection conn = new FabricaConexoes().getConnection();
+        PreparedStatement statement;
+        Prova prova = null;
+        ResultSet result;
+            try {
+                statement = conn.prepareStatement(PROVA);
+                statement.setInt(1, cod_prova);
+                result = statement.executeQuery();
+                while (result.next()) {
+                    prova = new Prova();
+                    prova.setCod_prova(result.getInt(1));
+                    prova.setCod_pro(result.getInt(2));
+                    prova.setCod_disciplina(result.getInt(3));
+                    prova.setDisciplina(result.getString(6));
+                    prova.setIdUsuario(idUsuario);
+                }
+ 
+            }catch(SQLException e){
+                    System.out.println("------->" + e.getMessage());                
+            }        
+       
+        return prova;
+        
+    }
 }

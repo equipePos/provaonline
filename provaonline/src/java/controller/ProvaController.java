@@ -10,10 +10,8 @@ import bean.Prova;
 import bean.Questao;
 import dao.ProvaDAO;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -60,5 +58,9 @@ public class ProvaController {
         this.setQuestoes( provaDAO.resultadoQuestoes(cod));
     }
 
-
+    public void realizarProva(int cod_prova, int idUsuario){
+        provaDAO = new ProvaDAO();
+        prova = provaDAO.getProva(cod_prova, idUsuario);
+        questoes = provaDAO.provaQuestoes(cod_prova);
+    }
 }

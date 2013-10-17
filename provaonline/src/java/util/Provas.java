@@ -7,12 +7,17 @@
 package util;
 
 import bean.Prova;
+import bean.Questao;
 import static controller.UsuarioController.getSessionAttribute;
 import dao.ProvaDAO;
+import java.io.IOException;
 import java.io.Serializable;
-import javax.faces.application.FacesMessage;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
@@ -26,10 +31,13 @@ import org.primefaces.model.TreeNode;
 @SessionScoped
 public class Provas implements Serializable{
     
-    Prova prova;
-    ProvaDAO provaDAO;
+    private Prova prova;
+    private ProvaDAO provaDAO;
     private TreeNode root;
     private TreeNode selectedNode;
+    private List<Questao> questoes;
+    private Questao questaoAtual;
+    private int nroAtual = 0;
     
     public Provas() {
         provaDAO = new ProvaDAO();
@@ -56,10 +64,40 @@ public class Provas implements Serializable{
                 }            
             i++;
         }
-        
-        
-        
     }
+
+    public int getNroAtual() {
+        return nroAtual;
+    }
+
+    public void setNroAtual(int nroAtual) {
+        this.nroAtual = nroAtual;
+    }
+
+    public Questao getQuestaoAtual() {
+        return questaoAtual;
+    }
+
+    public void setQuestaoAtual(Questao questaoAtual) {
+        this.questaoAtual = questaoAtual;
+    }
+
+    public Prova getProva() {
+        return prova;
+    }
+
+    public void setProva(Prova prova) {
+        this.prova = prova;
+    }
+
+    public List<Questao> getQuestoes() {
+        return questoes;
+    }
+
+    public void setQuestoes(List<Questao> questoes) {
+        this.questoes = questoes;
+    }
+    
     public TreeNode getRoot() {  
         return root;  
     } 
@@ -71,9 +109,37 @@ public class Provas implements Serializable{
     public void setSelectedNode(TreeNode selectedNode) {  
         this.selectedNode = selectedNode;  
     }     
-     public void onNodeSelect(NodeSelectEvent event) {  
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", event.getTreeNode().toString());  
   
-        FacesContext.getCurrentInstance().addMessage(null, message);  
-    } 
+    public void onNodeSelect(NodeSelectEvent event) {  
+        FacesContext redireciona = FacesContext.getCurrentInstance();
+        ExternalContext context = redireciona.getExternalContext();  
+        
+        int cod = 0;
+        String no = event.getTreeNode().toString();
+            if(no.substring(0, 6).equals("Prova ")){
+                Object uId = getSessionAttribute("usuarioId");
+                cod = Integer.parseInt(no.substring(6));              
+                realizarProva(cod, Integer.parseInt(uId.toString()));
+                    try { 
+                        context.redirect("http://localhost:8080/provaonline/prova/index.jsf");
+                    } catch (IOException ex) {
+                        Logger.getLogger(Provas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }
+    }
+    
+    public void realizarProva(int cod_prova, int idUsuario){
+        provaDAO = new ProvaDAO();
+        prova = provaDAO.getProva(cod_prova, idUsuario);
+        questoes = provaDAO.provaQuestoes(cod_prova);
+        setNroAtual(0);
+        questaoAtual = questoes.get(nroAtual);
+    }
+    
+    public void atualizarQuestaoAtual(){
+        int i  = getNroAtual();
+        i = i + 1 ;
+        setNroAtual(i);
+        setQuestaoAtual(questoes.get(nroAtual));
+    }
 }

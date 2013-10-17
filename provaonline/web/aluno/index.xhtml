@@ -45,7 +45,7 @@
                         <p:growl id="messages" showDetail="true" />
                         <h4>Área do aluno</h4>
                         <ul>
-                            <li><p:commandLink  >Provas</p:commandLink></li>
+                            <li><p:commandLink>Provas</p:commandLink></li>
                                 <p:tree animate="true" style="width: 200px;" value="#{provas.root}" var="node" dynamic="true" cache="false"  
                                         selectionMode="single"  selection="#{provas.selectedNode}" id="tree">
                                     <p:ajax event="select" update=":form:messages" listener="#{provas.onNodeSelect}" />  

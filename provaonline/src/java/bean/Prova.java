@@ -16,7 +16,7 @@ import javax.faces.bean.RequestScoped;
 @ManagedBean(name = "prova")
 @RequestScoped
 public class Prova {
- 
+    
     private int cod_prova;
     private int cod_pro;
     private int cod_disciplina;
