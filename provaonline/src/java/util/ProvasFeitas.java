@@ -11,6 +11,7 @@ import bean.Questao;
 import static controller.UsuarioController.getSessionAttribute;
 import dao.ProvaDAO;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -31,18 +32,26 @@ public class ProvasFeitas implements Serializable{
     Prova prova;
     ProvaDAO provaDAO;
     private List<Questao> questoes;
-    int totAcertos;
-    int perguntas;
+    int totAcertos ;
+    int perguntas ;
     private TreeNode root;
     private TreeNode selectedNode;
+    private double nota;
+    
     
     public ProvasFeitas() {
+        this.init();
+    }
+
+    public final void init(){
         provaDAO = new ProvaDAO();
-        
+        perguntas = 0;
+        questoes = new ArrayList<>();
         String[][] retorno = null ;
         String[] disciplinas = null ;
 
         Object uId = getSessionAttribute("usuarioId");
+        System.out.println("id----------------------------->"+uId);
         retorno = provaDAO.consultaProvasDisciplinas(0,Integer.parseInt(uId.toString()));
         disciplinas = provaDAO.consultaDisciplinas(0,Integer.parseInt(uId.toString()));
         
@@ -62,8 +71,19 @@ public class ProvasFeitas implements Serializable{
                 }            
             i++;
         }
+
+        this.atualizaNroQuestoes();
+        this.atualizaNroAcertos();
     }
 
+    public double getNota() {
+        return nota;
+    }
+
+    public void setNota(double nota) {
+        this.nota = nota;
+    }
+    
     public int getPerguntas() {
         return perguntas;
     }
@@ -91,7 +111,11 @@ public class ProvasFeitas implements Serializable{
     }
     
     public void atualizaNroQuestoes(){
-        setPerguntas(this.questoes.size());
+        if(this.questoes.isEmpty()){
+            setPerguntas(0);
+        }else{
+            setPerguntas(this.questoes.size() );
+        }
     }
     
     public List<Questao> getQuestoes() {
@@ -120,7 +144,6 @@ public class ProvasFeitas implements Serializable{
             if(no.substring(0, 6).equals("Prova ")){
                 cod = Integer.parseInt(no.substring(6));              
                 atualizaQuestoes(cod);
-                System.out.println("passou!");
             }
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", no.substring(0, 6) + " -- "+String.valueOf(cod));  
   
@@ -141,6 +164,7 @@ public class ProvasFeitas implements Serializable{
         this.setQuestoes(provaDAO.resultadoQuestoes(cod));
         this.atualizaNroAcertos();
         this.atualizaNroQuestoes();
+        this.nota = (this.totAcertos * 10)/ this.perguntas;
     }
 
 }

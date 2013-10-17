@@ -9,6 +9,7 @@ package util;
 import bean.Prova;
 import static controller.UsuarioController.getSessionAttribute;
 import dao.ProvaDAO;
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -23,7 +24,7 @@ import org.primefaces.model.TreeNode;
  */
 @ManagedBean(name = "provas")
 @SessionScoped
-public class Provas {
+public class Provas implements Serializable{
     
     Prova prova;
     ProvaDAO provaDAO;

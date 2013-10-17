@@ -63,7 +63,7 @@ public class UsuarioController implements Serializable{
         Object ul = getSessionAttribute("usuariologado");  
         Object ut = getSessionAttribute("usuarioTipo");
         Object uId = getSessionAttribute("usuarioId");
-        if(ul == null && ut == null){
+        if(ul == null && ut == null && uId == null){
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", false);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioTipo", 0);            
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioId", 0);            
@@ -101,15 +101,15 @@ public class UsuarioController implements Serializable{
         usuarioDAO = new UsuarioDAO();
         String[] retorno = usuarioDAO.getAutenticacao(usuario.getLogin(), usuario.getSenha());
         if(retorno[0].equals("1")){
+            this.usuario = usuarioDAO.consultarUsuarioID(Integer.parseInt(retorno[2]));
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", true); 
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioTipo", retorno[1]); 
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioId", retorno[2]); 
             if(retorno[1].equals("1")){
                 context.redirect("http://localhost:8080/provaonline/aluno/index.jsf"); 
             }else{
                 context.redirect("http://localhost:8080/provaonline/adm/index.jsf"); 
             }
-            this.usuario = usuarioDAO.consultarUsuarioID(Integer.parseInt(retorno[2]));
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuariologado", true); 
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioTipo", retorno[1]); 
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioId", retorno[2]); 
         }else{
             FacesContext contexto = FacesContext.getCurrentInstance();
             contexto.addMessage("erroLogin", new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro ao logar!", "Nome de usuário ou senha inválidos!!"));            

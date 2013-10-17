@@ -8,7 +8,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
  <h:head></h:head>
- <h:body>
+ <h:body onunload="#{provasFeitas.init()}" >
      
     <ui:composition template="../template/modelo.xhtml">
 
@@ -59,7 +59,7 @@
                                 </p:tree>  
                             <li><p:commandLink>Resultados</p:commandLink></li>
                             <p:tree animate="true" style="width: 200px;" value="#{provasFeitas.root}" var="node" dynamic="true" cache="false"  
-                                    selectionMode="single"  selection="#{provasFeitas.selectedNode}"  id="treeFeitas">
+                                    rendered="#{provasFeitas.root.childCount ne 0}" selectionMode="single"  selection="#{provasFeitas.selectedNode}"  id="treeFeitas">
                                 <p:ajax event="select" update=":frm1" listener="#{provasFeitas.onNodeSelect}" />  
                                     <p:treeNode id="treeNode" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">  
                                         <h:outputText value="#{node}" id="lblNode"/>  
@@ -67,7 +67,7 @@
                                     <p:treeNode type="prova" icon="ui-icon-document">  
                                         <h:outputText value="#{node}" />  
                                     </p:treeNode> 
-                                </p:tree>  
+                            </p:tree>  
                             
                             <li><p:commandLink  action="#{usuarioController.logOut()}">Sair</p:commandLink></li>
                         </ul>
@@ -75,8 +75,8 @@
                 </div>
             </aside>
             <article class="conteudo">
-                <h:form id="frm1">
-                    <p:panel rendered="true" id="painel"  header="Resultado da Avaliação - #{provasFeitas.totAcertos} acertos" style="margin-top:0px; width:680px;" >
+                <h:form id="frm1" rendered="#{provasFeitas.root.childCount ne 0}">
+                    <p:panel rendered="true" id="painel"  header="Resultado da Avaliação - #{provasFeitas.totAcertos} acertos || Nota Final #{provasFeitas.nota}" style="margin-top:0px; width:680px;" >
                         <p:outputLabel value="Número de questões: #{provasFeitas.perguntas} "></p:outputLabel>
                         <p:panel toggleable="true" header="Detalhes" collapsed="true">
                             <ui:repeat  id="rep" value="#{provasFeitas.questoes}" var="questoes">
