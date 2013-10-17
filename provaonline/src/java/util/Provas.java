@@ -151,8 +151,12 @@ public class Provas implements Serializable{
                 this.questaoAtual.getCod_questao(), 
                 this.questaoAtual.getResposta(), prova.getIdUsuario());
             FacesContext contexto = FacesContext.getCurrentInstance();
-            contexto.addMessage("resposta", new FacesMessage(FacesMessage.SEVERITY_FATAL, "Ok", "Resposta "));     
-            atualizarQuestaoAtual();
+            contexto.addMessage("resposta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Ok", "Resposta "));     
+            if(nroAtual < questoes.size() ){
+                atualizarQuestaoAtual();                
+            }else{
+                contexto.addMessage("resposta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Ok", "Fim"));
+            }
     }    
     
 }
