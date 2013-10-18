@@ -41,6 +41,10 @@ public class Provas implements Serializable{
     private int nroAtual = 0;
     
     public Provas() {
+        init();
+    }
+
+    public void init(){
         provaDAO = new ProvaDAO();
         
         String[][] retorno = null ;
@@ -64,9 +68,10 @@ public class Provas implements Serializable{
                     }
                 }            
             i++;
-        }
+        }        
     }
-
+    
+    
     public int getNroAtual() {
         return nroAtual;
     }
@@ -152,12 +157,12 @@ public class Provas implements Serializable{
                 this.questaoAtual.getResposta(), prova.getIdUsuario());
             FacesContext contexto = FacesContext.getCurrentInstance();
             int x = questoes.size() - 1;
-            contexto.addMessage("resposta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Ok","atual "+ nroAtual +" < "+ x +"" ));     
             if(nroAtual < questoes.size()-1 ){
+                contexto.addMessage("resposta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Resposta gravada","" ));     
                 atualizarQuestaoAtual();                
             }else{
                 setNroAtual(nroAtual+1);
-                contexto.addMessage("resposta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Ok", "Fim"));
+                contexto.addMessage("resposta", new FacesMessage(FacesMessage.SEVERITY_INFO, "Resposta Gravada", "Prova encerrada!"));
             }
     }    
     
