@@ -22,11 +22,11 @@ import util.FabricaConexoes;
  */
 public class ProvaDAO {
     
-    private static final String DISCIPLINAS_PROVAS = "SELECT cod_disciplina,disciplina,cod_prova, codaluno,codprova  FROM prova.provas_disciplina\n" +
-    "where cod_prova not in(select cod_prova from prova.provas_disciplina where codaluno = ?);";
+    private static final String DISCIPLINAS_PROVAS = "SELECT cod_disciplina,disciplina,cod_prova, codaluno,codprova  FROM prova.vw_provas_disciplina\n" +
+    "where cod_prova not in(select cod_prova from prova.vw_provas_disciplina where codaluno = ?);";
 
-    private static final String DISCIPLINAS_COM_PROVAS = "SELECT cod_disciplina,disciplina,cod_prova, codaluno,codprova  FROM prova.provas_disciplina\n" +
-                    "where cod_prova not in(select cod_prova from prova.provas_disciplina where codaluno = ?)"
+    private static final String DISCIPLINAS_COM_PROVAS = "SELECT cod_disciplina,disciplina,cod_prova, codaluno,codprova  FROM prova.vw_provas_disciplina\n" +
+                    "where cod_prova not in(select cod_prova from prova.vw_provas_disciplina where codaluno = ?)"
                     + " group by disciplina ";
     
     private static final String DISCIPLINAS_PROVAS_FEITAS = "SELECT \n" +
@@ -241,6 +241,29 @@ public class ProvaDAO {
                     quest.setAlternativa_e(result.getString(9));
                     quest.setCorreta(result.getString(4));
                     quest.setResposta(result.getString(13));
+                    if(result.getString(13).equals("a")){
+                        quest.setRespostaExtenso(result.getString(5));
+                    }else if(result.getString(13).equals("b")){                        
+                        quest.setRespostaExtenso(result.getString(6));
+                    }else if(result.getString(13).equals("c")){                        
+                        quest.setRespostaExtenso(result.getString(7));
+                    }else if(result.getString(13).equals("d")){
+                        quest.setRespostaExtenso(result.getString(8));
+                    }else{
+                        quest.setRespostaExtenso(result.getString(9));
+                    }
+                    if(result.getString(4).equals("a")){
+                        quest.setCorretaExtenso(result.getString(5));
+                    }else if(result.getString(4).equals("b")){                        
+                        quest.setCorretaExtenso(result.getString(6));
+                    }else if(result.getString(4).equals("c")){                        
+                        quest.setCorretaExtenso(result.getString(7));
+                    }else if(result.getString(4).equals("d")){
+                        quest.setCorretaExtenso(result.getString(8));
+                    }else{
+                        quest.setCorretaExtenso(result.getString(9));
+                    }
+                    
                     listaQuestoes.add(quest);
                 }
  

@@ -58,17 +58,18 @@
                                     </p:treeNode> 
                                 </p:tree>  
                             <li><p:commandLink>Resultados</p:commandLink></li>
-                            <p:tree animate="true" style="width: 200px;" value="#{provasFeitas.root}" var="node" dynamic="true" cache="false"  
-                                    rendered="#{provasFeitas.root.childCount ne 0}" selectionMode="single"  selection="#{provasFeitas.selectedNode}"  id="treeFeitas">
+                            <p:tree animate="true" style="width: 200px;" value="#{provasFeitas.root}" var="node" dynamic="true" cache="false"
+                                    rendered="#{provasFeitas.root.childCount ne 0}" selectionMode="single" selection="#{provasFeitas.selectedNode}"  id="treeFeitas">
                                 <p:ajax event="select" update=":frm1" listener="#{provasFeitas.onNodeSelect}" />  
+                                
                                     <p:treeNode id="treeNode" expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">  
                                         <h:outputText value="#{node}" id="lblNode"/>  
                                     </p:treeNode>  
                                     <p:treeNode type="prova" icon="ui-icon-document">  
                                         <h:outputText value="#{node}" />  
                                     </p:treeNode> 
-                            </p:tree>  
-                            
+                            </p:tree>
+
                             <li><p:commandLink  action="#{usuarioController.logOut()}">Sair</p:commandLink></li>
                         </ul>
                     </h:form>
@@ -76,7 +77,7 @@
             </aside>
             <article class="conteudo">
                 <h:form id="frm1" rendered="#{provasFeitas.root.childCount ne 0}">
-                    <p:panel rendered="true" id="painel"  header="Resultado da Avaliação - #{provasFeitas.totAcertos} acertos || Nota Final #{provasFeitas.nota}" style="margin-top:0px; width:680px;" >
+                    <p:panel visible="true" id="painel" widgetVar="painel" header="Resultado da Avaliação - #{provasFeitas.totAcertos} acertos || Nota Final #{provasFeitas.nota}" style="margin-top:0px; width:680px;" >
                         <p:outputLabel value="Número de questões: #{provasFeitas.perguntas} "></p:outputLabel>
                         <p:panel toggleable="true" header="Detalhes" collapsed="true">
                             <ui:repeat  id="rep" value="#{provasFeitas.questoes}" var="questoes">
@@ -85,15 +86,15 @@
                                         Questão - #{questoes.enunciado}  
                                     </f:facet>
                                           <p:row>
-                                              <p:column rowspan="2" style="width: 80px;">
+                                                <p:column rowspan="2" style="width: 80px;">
                                                   <p:graphicImage rendered="#{questoes.correta ne questoes.resposta}" style="width: 64px" url="../resources/images/erro.png"></p:graphicImage>
                                                   <p:graphicImage rendered="#{questoes.correta eq questoes.resposta}" style="width: 64px" url="../resources/images/acerto.png"></p:graphicImage>
-                                              </p:column>
-                                                <p:column>Resposta correta: #{questoes.correta} </p:column>
-                                            </p:row>
-                                            <p:row>
-                                                <p:column>Sua resposta: #{questoes.resposta} </p:column>
-                                            </p:row>
+                                                </p:column>
+                                              <p:column rendered="#{questoes.correta ne questoes.resposta}"><strong>Resposta correta: </strong>#{questoes.corretaExtenso} </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column><strong>Sua resposta: </strong>#{questoes.respostaExtenso} </p:column>
+                                        </p:row>
                                    
 
 

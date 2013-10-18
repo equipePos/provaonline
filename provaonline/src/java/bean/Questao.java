@@ -27,6 +27,24 @@ public class Questao {
     private String alternativa_e; 
     private String correta;
     private String resposta;
+    private String corretaExtenso;
+    private String respostaExtenso;
+
+    public String getCorretaExtenso() {
+        return corretaExtenso;
+    }
+
+    public void setCorretaExtenso(String corretaExtenso) {
+        this.corretaExtenso = corretaExtenso;
+    }
+
+    public String getRespostaExtenso() {
+        return respostaExtenso;
+    }
+
+    public void setRespostaExtenso(String respostaExtenso) {
+        this.respostaExtenso = respostaExtenso;
+    }
 
     public Questao() {
     }
