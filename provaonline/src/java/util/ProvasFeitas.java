@@ -51,7 +51,6 @@ public class ProvasFeitas implements Serializable{
         String[] disciplinas = null ;
 
         Object uId = getSessionAttribute("usuarioId");
-        System.out.println("id----------------------------->"+uId);
         retorno = provaDAO.consultaProvasDisciplinas(0,Integer.parseInt(uId.toString()));
         disciplinas = provaDAO.consultaDisciplinas(0,Integer.parseInt(uId.toString()));
         
@@ -161,7 +160,8 @@ public class ProvasFeitas implements Serializable{
 
     public void atualizaQuestoes(int cod) {            
         provaDAO = new ProvaDAO();
-        this.setQuestoes(provaDAO.resultadoQuestoes(cod));
+         Object uId = getSessionAttribute("usuarioId");
+        this.setQuestoes(provaDAO.resultadoQuestoes(cod,Integer.parseInt(uId.toString())));
         this.atualizaNroAcertos();
         this.atualizaNroQuestoes();
         this.nota = (this.totAcertos * 10)/ this.perguntas;

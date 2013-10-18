@@ -22,20 +22,12 @@ import util.FabricaConexoes;
  */
 public class ProvaDAO {
     
-    private static final String DISCIPLINAS_PROVAS = "SELECT \n" +
-                                                        "* \n" +
-                                                        "FROM tbl_disciplina d,  prova.vw_provas p\n" +
-                                                        "where \n" +
-                                                        "d.cod_disciplina = p.cod_disciplina and \n" +
-                                                        "(codaluno is null or codaluno != ?);";
+    private static final String DISCIPLINAS_PROVAS = "SELECT cod_disciplina,disciplina,cod_prova, codaluno,codprova  FROM prova.provas_disciplina\n" +
+    "where cod_prova not in(select cod_prova from prova.provas_disciplina where codaluno = ?);";
 
-    private static final String DISCIPLINAS_COM_PROVAS = "SELECT \n" +
-                                                            " * \n" +
-                                                            " FROM tbl_disciplina d,  prova.vw_provas p\n" +
-                                                            " where \n" +
-                                                            " d.cod_disciplina = p.cod_disciplina and \n" +
-                                                            " (codaluno is null or codaluno != ?)\n" +
-                                                            " group by disciplina ";
+    private static final String DISCIPLINAS_COM_PROVAS = "SELECT cod_disciplina,disciplina,cod_prova, codaluno,codprova  FROM prova.provas_disciplina\n" +
+                    "where cod_prova not in(select cod_prova from prova.provas_disciplina where codaluno = ?)"
+                    + " group by disciplina ";
     
     private static final String DISCIPLINAS_PROVAS_FEITAS = "SELECT \n" +
                                                                 "* \n" +
@@ -70,7 +62,18 @@ public class ProvaDAO {
                                                             "	q.cod_questao = pf.cod_questao and \n" +
                                                             "	d.cod_disciplina = p.cod_disciplina and\n" +
                                                             "	p.cod_prova = pf.cod_prova and\n" +
-                                                            "	pf.cod_prova = ?;";
+                                                            "	pf.cod_prova = ? ;";
+    
+    private static final String PROVA_FEITA_COD_PROVA_ID = "select \n" +
+                                                            "	* \n" +
+                                                            " from\n" +
+                                                            "	tbl_questao q , tbl_prova_feita pf, tbl_disciplina d,  tbl_prova p\n" +
+                                                            " where\n" +
+                                                            "	q.cod_prova = pf.cod_prova and\n" +
+                                                            "	q.cod_questao = pf.cod_questao and \n" +
+                                                            "	d.cod_disciplina = p.cod_disciplina and\n" +
+                                                            "	p.cod_prova = pf.cod_prova and\n" +
+                                                            "	pf.cod_prova = ? and pf.cod_aluno = ? ;";
 
     private static final String QUESTÕES_PROVA = "select * from tbl_questao q where q.cod_prova = ?";
     
@@ -169,15 +172,16 @@ public class ProvaDAO {
     }
     
     
-    public Prova resultadoProva(int cod_prova){
+    public Prova resultadoProva(int cod_prova,int cod_aluno){
         Prova retorno = new Prova();
         String[][] questoes = null;
         Connection conn = new FabricaConexoes().getConnection();
         PreparedStatement statement;
         ResultSet result;
             try {
-                statement = conn.prepareStatement(PROVA_FEITA_COD_PROVA);
+                statement = conn.prepareStatement(PROVA_FEITA_COD_PROVA_ID);
                 statement.setInt(1, cod_prova);
+                statement.setInt(2, cod_aluno);
                 result = statement.executeQuery();
                 result.first();
                 retorno.setCod_prova(result.getInt(2));
@@ -209,14 +213,20 @@ public class ProvaDAO {
         
     }
 
-    public List<Questao> resultadoQuestoes(int cod_prova){
+    public List<Questao> resultadoQuestoes(int cod_prova, int cod_aluno){
         Connection conn = new FabricaConexoes().getConnection();
         PreparedStatement statement;
         List<Questao> listaQuestoes = new ArrayList<>();
         ResultSet result;
             try {
-                statement = conn.prepareStatement(PROVA_FEITA_COD_PROVA);
-                statement.setInt(1, cod_prova);
+                if(cod_aluno == 0){
+                    statement = conn.prepareStatement(PROVA_FEITA_COD_PROVA);
+                    statement.setInt(1, cod_prova);
+                }else{
+                    statement = conn.prepareStatement(PROVA_FEITA_COD_PROVA_ID);
+                    statement.setInt(1, cod_prova);
+                    statement.setInt(2, cod_aluno);
+                }
                 result = statement.executeQuery();
                 while (result.next()) {
                     Questao quest = new Questao();

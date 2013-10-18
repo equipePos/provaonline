@@ -28,27 +28,38 @@
     
             <ui:define name="container">
                 <p:panel style="width: 900px;height: 350px; margin-left: auto;margin-right: auto;">
-                    <h:outputText value="#{provas.prova.cod_prova}"></h:outputText><br/>
-                    <h:outputText value="#{provas.prova.cod_pro}"></h:outputText><br/>
-                    <h:outputText value="#{provas.prova.disciplina}"></h:outputText><br/>
-                    <h:outputText value="#{provas.prova.idUsuario}"></h:outputText><br/>
                     <h:form id="frmQuestoes">
                         <p:growl id="resposta" autoUpdate="true" showDetail="true"/>
-                        <p:panel rendered="#{provas.questoes.size() ne provas.nroAtual}"   header="#{provas.questaoAtual.enunciado}"   >
-                                
-                                <h:outputText value="#{provas.questoes.size()}"></h:outputText><br/>
-                                <h:outputText value="#{provas.nroAtual}"></h:outputText><br/>
-                            <p:selectOneRadio value="#{provas.questaoAtual.resposta}" layout="pageDirection">
+
+                        <p:panelGrid columns="2" style="width: 100%">  
+                            <f:facet name="header">  
+                                   Prova - #{provas.prova.cod_prova}
+                            </f:facet>  
+                            <p:column>Disciplina:</p:column>
+                            <p:column>#{provas.prova.disciplina}</p:column>
+                        </p:panelGrid>  
+
+                        <p:panel rendered="#{provas.questoes.size() ne provas.nroAtual}"   header="#{provas.questaoAtual.enunciado}">
+                            <p:selectOneRadio required="true" requiredMessage="Selecione uma resposta" value="#{provas.questaoAtual.resposta}" layout="pageDirection">
                                 <f:selectItem itemValue="a" itemLabel="#{provas.questaoAtual.alternativa_a}" />
                                 <f:selectItem itemValue="b" itemLabel="#{provas.questaoAtual.alternativa_b}" />
                                 <f:selectItem itemValue="c" itemLabel="#{provas.questaoAtual.alternativa_c}" />
                                 <f:selectItem itemValue="d" itemLabel="#{provas.questaoAtual.alternativa_d}" />
                                 <f:selectItem itemValue="e" itemLabel="#{provas.questaoAtual.alternativa_e}" />
-                            </p:selectOneRadio>
-                            
-                            <p:commandButton rendered="#{provas.questoes.size() ne provas.nroAtual}"  update="frmQuestoes" value="Reponder" actionListener="#{provas.responderQuestao()}" ></p:commandButton>
-                        </p:panel>     
-                        <p:commandButton rendered="#{provas.questoes.size() eq provas.nroAtual}"  update="frmQuestoes" value="Encerrar" ></p:commandButton>
+                            </p:selectOneRadio>                            
+                        </p:panel>
+                        <p:commandButton rendered="#{provas.questoes.size() ne provas.nroAtual}"  update="frmQuestoes" value="Reponder" actionListener="#{provas.responderQuestao()}" ></p:commandButton>
+                        
+                        <p:panelGrid rendered="#{provas.questoes.size() eq provas.nroAtual}"  columns="1" style="width: 100%">  
+                            <f:facet name="header">  
+                                   Prova - Finalizada!
+                            </f:facet>  
+                            <p:column>
+                                <p:commandButton action="/aluno/index" value="Encerrar" ></p:commandButton>
+                            </p:column>
+                        </p:panelGrid>  
+
+                        
                     </h:form>
                 </p:panel>
             </ui:define>

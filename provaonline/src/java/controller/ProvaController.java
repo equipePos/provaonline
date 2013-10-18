@@ -55,7 +55,7 @@ public class ProvaController {
 
     public void atualizaQuestoes(int cod) {
         provaDAO = new ProvaDAO();
-        this.setQuestoes( provaDAO.resultadoQuestoes(cod));
+        this.setQuestoes( provaDAO.resultadoQuestoes(cod,0));
     }
 
     public void realizarProva(int cod_prova, int idUsuario){
